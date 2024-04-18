@@ -3,9 +3,6 @@
 // fetch call cart api to add item to cart
 
 export const saveCart = async (userId, product, quantity) => {
-  console.log("userId", userId);
-  console.log("productId", product);
-  console.log("quantity", quantity);
   const response = await fetch(`http://localhost:3001/carts/user/${userId}`, {
     method: "POST",
     headers: {
@@ -27,8 +24,7 @@ export const saveCart = async (userId, product, quantity) => {
 export const getCart = async (userId) => {
   const response = await fetch(`http://localhost:3001/carts/user/${userId}`);
   const data = await response.json();
-  console.log("data");
-  console.log(data);
+
   return data;
 };
 

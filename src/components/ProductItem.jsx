@@ -18,7 +18,6 @@ function ProductItem({ product }) {
     saveCart(userDetails.userId, product, 1);
     setShowAlert(true);
 
-    console.log("Product added to cart", product);
     setTimeout(() => {
       setShowAlert(false);
     }, 3000);

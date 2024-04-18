@@ -7,6 +7,5 @@ export const savePayment = async (payment) => {
     body: JSON.stringify(payment),
   });
   const data = await response.json();
-  console.log("payment saved", data);
   return data;
 };

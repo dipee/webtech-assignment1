@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 const UserPage = () => {
   const { userDetails } = useUser();
   console.log(userDetails);
+
   return (
     <div className="container mt-3">
       <div className="row justify-content-center align-items-center">
@@ -26,8 +27,13 @@ const UserPage = () => {
             </div>
           </div>
           <Link to={"/orders"}>
-            <button className="btn btn-success my-3">My Orders</button>
+            <button className="btn btn-success my-3 m-3">My Orders</button>
           </Link>
+          {userDetails.isAdmin === "true" && (
+            <Link to={"/addproduct"}>
+              <button className="btn btn-primary my-3">Admin Page</button>
+            </Link>
+          )}
         </div>
       </div>
     </div>

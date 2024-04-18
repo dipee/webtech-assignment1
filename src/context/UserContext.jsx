@@ -15,6 +15,7 @@ export const UserProvider = ({ children }) => {
     const userName = localStorage.getItem("userName");
     const userAddress = localStorage.getItem("userAddress");
     const isAuthenticated = localStorage.getItem("authenticated");
+    const isAdmin = localStorage.getItem("isAdmin");
 
     if (userEmail && userName && userAddress && isAuthenticated) {
       setUserDetails({
@@ -22,6 +23,7 @@ export const UserProvider = ({ children }) => {
         name: userName,
         address: userAddress,
         userId: userId,
+        isAdmin: isAdmin,
       });
       setAuthenticated(isAuthenticated === "true");
       <Navigate to="/" replace />;
@@ -29,7 +31,7 @@ export const UserProvider = ({ children }) => {
   }, []);
 
   const login = (details) => {
-    const { email, name, address, _id } = details;
+    const { email, name, address, _id, isAdmin } = details;
     // make api call to authenticate user
 
     // Save user details to localStorage
@@ -38,7 +40,8 @@ export const UserProvider = ({ children }) => {
     localStorage.setItem("userAddress", address);
     localStorage.setItem("authenticated", true);
     localStorage.setItem("userId", _id);
-    setUserDetails({ email, name, address, userId: _id });
+    localStorage.setItem("isAdmin", isAdmin);
+    setUserDetails({ email, name, address, userId: _id, isAdmin });
     setAuthenticated(true);
   };
 

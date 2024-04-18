@@ -16,8 +16,6 @@ const Bill = ({ cartItems }) => {
   //calculate grand total
   const grandTotal = subtotal + tax;
 
-  console.log("subtotal", cartItems);
-
   return (
     <div className="mt-3">
       <ul className="list-group">

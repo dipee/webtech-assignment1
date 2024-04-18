@@ -86,15 +86,15 @@ const Login = () => {
                   </div>
                 </div>
                 <div className="form-group row">
-                  <div className="col-sm-12">
-                    <button type="submit" className="btn btn-primary btn-block">
+                  <div className="col-sm-12 d-flex justify-content-end">
+                    <button type="submit" className="btn btn-primary">
                       Login
                     </button>
                   </div>
                 </div>
               </form>
               <div className="text-center">
-                <p className="mb-0">Don't have an account?</p>
+                <p className="mb-0 mt-3">Don't have an account?</p>
                 <p className="mb-0">
                   Register <Link to="/register">here</Link>.
                 </p>

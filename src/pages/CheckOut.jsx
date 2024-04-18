@@ -19,12 +19,31 @@ const CheckOut = () => {
   const [showAlert, setShowAlert] = useState(false);
   const { cartItems } = useShop();
 
-  const handleChange = (e) => {
+  const handleCardNoChange = (e) => {
     const { name, value } = e.target;
-    setCardDetails((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
+    // Format the card number (e.g., add spaces every 4 digits)
+    const formattedValue = value
+      .replace(/\D/g, "")
+      .replace(/(.{4})/g, "$1 ")
+      .trim();
+    setCardDetails({ ...cardDetails, [name]: formattedValue });
+  };
+
+  const handleExpiryChange = (event) => {
+    const { name, value } = event.target;
+    // Format the expiry date (e.g., add '/' between month and year)
+    const formattedValue = value
+      .replace(/\D/g, "")
+      .replace(/(\d{2})(\d{0,2})/, "$1/$2")
+      .trim();
+    setCardDetails({ ...cardDetails, [name]: formattedValue });
+  };
+
+  const handleCvvChange = (event) => {
+    const { name, value } = event.target;
+    // Format the CVV (e.g., remove non-numeric characters)
+    const formattedValue = value.replace(/\D/g, "").trim();
+    setCardDetails({ ...cardDetails, [name]: formattedValue });
   };
 
   const handleSubmit = async (e) => {
@@ -131,8 +150,9 @@ const CheckOut = () => {
                   className="form-control"
                   id="cardNumber"
                   name="cardNumber"
+                  placeholder="XXXX XXXX XXXX XXXX"
                   value={cardDetails.cardNumber}
-                  onChange={handleChange}
+                  onChange={handleCardNoChange}
                   required
                 />
               </div>
@@ -145,8 +165,9 @@ const CheckOut = () => {
                   className="form-control"
                   id="expiryDate"
                   name="expiryDate"
+                  placeholder="MM/YY"
                   value={cardDetails.expiryDate}
-                  onChange={handleChange}
+                  onChange={handleExpiryChange}
                   required
                 />
               </div>
@@ -160,7 +181,7 @@ const CheckOut = () => {
                   id="cvv"
                   name="cvv"
                   value={cardDetails.cvv}
-                  onChange={handleChange}
+                  onChange={handleCvvChange}
                   required
                 />
               </div>

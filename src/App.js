@@ -14,6 +14,8 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import CheckOut from "./pages/CheckOut";
 import Order from "./pages/Orders";
 
+import AddProductForm from "./pages/AddProduct";
+
 function App() {
   return (
     <div className="App">
@@ -59,6 +61,16 @@ function App() {
               />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
+              {
+                <Route
+                  path="/addproduct"
+                  element={
+                    <ProtectedRoute>
+                      <AddProductForm />
+                    </ProtectedRoute>
+                  }
+                />
+              }
               <Route path="*" element={<h1>Not Found</h1>} />
             </Routes>
           </Router>
