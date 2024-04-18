@@ -12,6 +12,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import ProtectedRoute from "./components/ProtectedRoute";
 import CheckOut from "./pages/CheckOut";
+import Order from "./pages/Orders";
 
 function App() {
   return (
@@ -39,6 +40,15 @@ function App() {
                   </ProtectedRoute>
                 }
               />
+              <Route
+                path="/orders"
+                element={
+                  <ProtectedRoute>
+                    <Order />
+                  </ProtectedRoute>
+                }
+              />
+
               <Route
                 path="/checkout"
                 element={

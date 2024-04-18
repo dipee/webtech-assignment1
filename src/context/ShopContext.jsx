@@ -8,7 +8,7 @@ export const ShopContextProvider = (props) => {
   const [cartItems, setCartItems] = useState();
 
   const removeAllFromCart = () => {
-    setCartItems({});
+    setCartItems();
   };
 
   return (

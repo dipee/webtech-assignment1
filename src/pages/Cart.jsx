@@ -8,11 +8,13 @@ import {
   removeItemFromCart,
 } from "../services/cartService";
 import { useUser } from "../context/UserContext";
+import { useShop } from "../context/ShopContext";
 
 const Cart = () => {
   const { userDetails } = useUser();
   const [allCartItems, setAllCartItems] = useState(null);
   const navigate = useNavigate();
+  const { setCartItems } = useShop();
 
   const fetchCart = async () => {
     try {
@@ -36,10 +38,6 @@ const Cart = () => {
         });
 
         setAllCartItems(mappedCartItems[0]);
-        const products = mappedCartItems[0].products;
-        const productCount = products.map((product) => {
-          return { productId: product.productId, quantity: product.quantity };
-        });
       } else {
         setAllCartItems(null);
       }
@@ -68,6 +66,7 @@ const Cart = () => {
   };
 
   const handleCheckout = () => {
+    setCartItems(allCartItems.products);
     navigate("/checkout");
   };
 
