@@ -5,7 +5,7 @@ import { useUser } from "./UserContext";
 export const ShopContext = createContext();
 export const useShop = () => useContext(ShopContext);
 export const ShopContextProvider = (props) => {
-  const [cartItems, setCartItems] = useState({});
+  const [cartItems, setCartItems] = useState();
   const [totalQuantity, setTotalQuantity] = useState(0);
   const { userDetails } = useUser();
 
@@ -13,44 +13,20 @@ export const ShopContextProvider = (props) => {
     // Function to calculate total quantity whenever cart items change
     const calculateTotalQuantity = () => {
       let totalQuantity = 0;
-      for (const _id in cartItems) {
-        totalQuantity += cartItems[_id][0];
-      }
+      totalQuantity = cartItems?.length;
       return totalQuantity;
     };
+
+    console.log("cartItems from context", cartItems);
 
     // Update total quantity whenever cart items change
     const totalQuantity = calculateTotalQuantity();
 
+    console.log("totalQuantity from context", totalQuantity);
+
     // Update total quantity whenever cart items change
     setTotalQuantity(totalQuantity);
   }, [cartItems]);
-
-  const addToCart = (item, qty = 1) => {
-    if (cartItems.hasOwnProperty(item._id)) {
-      setCartItems((prev) => ({
-        ...prev,
-        [item._id]: [prev[item._id][0] + qty, item],
-      }));
-    } else {
-      setCartItems((prev) => ({ ...prev, [item._id]: [qty, item] }));
-    }
-  };
-
-  const removeFromCart = (itemID) => {
-    const items = { ...cartItems };
-    delete items[itemID];
-    setCartItems(items);
-  };
-
-  const updateCartQuantity = (id, quantity) => {
-    if (quantity <= 0) {
-      removeFromCart(id);
-    } else {
-      const updateItem = cartItems[id][1];
-      setCartItems((prev) => ({ ...prev, [id]: [quantity, updateItem] }));
-    }
-  };
 
   const removeAllFromCart = () => {
     setCartItems({});
@@ -60,9 +36,7 @@ export const ShopContextProvider = (props) => {
     <ShopContext.Provider
       value={{
         cartItems,
-        addToCart,
-        removeFromCart,
-        updateCartQuantity,
+
         totalQuantity,
         removeAllFromCart,
         setCartItems,

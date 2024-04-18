@@ -46,8 +46,11 @@ const Cart = () => {
       }
     };
     fetchCart();
-    setCartItems(allCartItems);
   }, [userDetails.userId]);
+
+  useEffect(() => {
+    setCartItems(allCartItems?.products);
+  }, [allCartItems]);
 
   const addQuantity = (product) => {
     saveCart(userDetails.userId, product, 1);
@@ -112,7 +115,7 @@ const Cart = () => {
               </li>
             ))}
           </ul>
-          <Bill />
+          {/* <Bill /> */}
           <button
             className="btn btn-primary btn-sm ms-2 my-2"
             onClick={handleCheckout}

@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { ShopContext } from "../context/ShopContext";
+import { useShop } from "../context/ShopContext";
 import { useUser } from "../context/UserContext";
 import { Link, useNavigate } from "react-router-dom";
 import { saveCart } from "../services/cartService";
@@ -8,6 +8,7 @@ function ProductItem({ product }) {
   const { userDetails } = useUser();
   const [showAlert, setShowAlert] = useState(false);
   const navigate = useNavigate();
+  const { setCartItems } = useShop();
 
   const handleAddToCart = () => {
     if (!userDetails) {
@@ -16,6 +17,14 @@ function ProductItem({ product }) {
     product.productId = product._id;
     saveCart(userDetails.userId, product, 1);
     setShowAlert(true);
+    // setCartItems((prev) => {
+    //   return {
+    //     ...prev,
+    //     product,
+    //   };
+    // });
+
+    console.log("Product added to cart", product);
     setTimeout(() => {
       setShowAlert(false);
     }, 3000);
