@@ -8,60 +8,63 @@ import {
   removeItemFromCart,
 } from "../services/cartService";
 import { useUser } from "../context/UserContext";
-import { useShop } from "../context/ShopContext";
 
 const Cart = () => {
   const { userDetails } = useUser();
   const [allCartItems, setAllCartItems] = useState(null);
   const navigate = useNavigate();
-  const { setCartItems } = useShop();
 
-  useEffect(() => {
-    const fetchCart = async () => {
-      try {
-        const data = await getCart(userDetails.userId);
-        if (data.length > 0) {
-          const mappedCartItems = data.map((cartItem) => {
-            return {
-              _id: cartItem._id,
-              userId: cartItem.userId,
-              products: cartItem.products.map((product) => {
-                return {
-                  productId: product.productId,
-                  quantity: product.quantity,
-                  name: product.name,
-                  price: product.price,
-                  image: product.image,
-                  _id: product._id,
-                };
-              }),
-            };
-          });
-          setAllCartItems(mappedCartItems[0]);
-        } else {
-          setAllCartItems(null);
-        }
-      } catch (error) {
-        console.error("Error fetching cart:", error);
+  const fetchCart = async () => {
+    try {
+      const data = await getCart(userDetails.userId);
+      if (data.length > 0) {
+        const mappedCartItems = data.map((cartItem) => {
+          return {
+            _id: cartItem._id,
+            userId: cartItem.userId,
+            products: cartItem.products.map((product) => {
+              return {
+                productId: product.productId,
+                quantity: product.quantity,
+                name: product.name,
+                price: product.price,
+                image: product.image,
+                _id: product._id,
+              };
+            }),
+          };
+        });
+
+        setAllCartItems(mappedCartItems[0]);
+        const products = mappedCartItems[0].products;
+        const productCount = products.map((product) => {
+          return { productId: product.productId, quantity: product.quantity };
+        });
+      } else {
+        setAllCartItems(null);
       }
-    };
-    fetchCart();
-  }, [userDetails.userId]);
+    } catch (error) {
+      console.error("Error fetching cart:", error);
+    }
+  };
 
   useEffect(() => {
-    setCartItems(allCartItems?.products);
-  }, [allCartItems]);
+    fetchCart();
+  }, [userDetails.userId, userDetails.quantity]);
 
-  const addQuantity = (product) => {
-    saveCart(userDetails.userId, product, 1);
+  const addQuantity = async (product) => {
+    await saveCart(userDetails.userId, product, 1);
+    fetchCart();
   };
 
-  const subtractQuantity = (cartId, productId) => {
-    decreaseQtyFromCart(cartId, productId);
+  const subtractQuantity = async (cartId, productId) => {
+    await decreaseQtyFromCart(cartId, productId);
+    fetchCart();
   };
 
-  const removeFromCart = (cartId, productId) => {
-    removeItemFromCart(cartId, productId);
+  const removeFromCart = async (cartId, productId) => {
+    await removeItemFromCart(cartId, productId);
+    fetchCart();
   };
 
   const handleCheckout = () => {
@@ -115,7 +118,7 @@ const Cart = () => {
               </li>
             ))}
           </ul>
-          {/* <Bill /> */}
+          <Bill cartItems={allCartItems} />
           <button
             className="btn btn-primary btn-sm ms-2 my-2"
             onClick={handleCheckout}

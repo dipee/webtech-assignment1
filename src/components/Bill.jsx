@@ -1,29 +1,25 @@
 import React, { useContext } from "react";
 import { ShopContext } from "../context/ShopContext";
-import { useUser } from "../context/UserContext";
 
 const taxRate = 0.13;
 
-const Bill = () => {
-  const { cartItems } = useContext(ShopContext);
-  const { userDetails } = useUser();
+const Bill = ({ cartItems }) => {
+  //get products from cartItems
+  const products = cartItems?.products;
+  //calculate subtotal
+  const subtotal = products?.reduce((acc, product) => {
+    return acc + product.price * product.quantity;
+  }, 0);
+  //calculate tax
 
-  const subtotal = cartItems?.products?.reduce(
-    (total, [id, [quantity, item]]) => total + item.price * quantity,
-    0
-  );
   const tax = subtotal * taxRate;
+  //calculate grand total
   const grandTotal = subtotal + tax;
+
+  console.log("subtotal", cartItems);
 
   return (
     <div className="mt-3">
-      {/* {userDetails.name && (
-        <div className="text-start">
-          <p><strong>Name:</strong> {userDetails.name}</p>
-          <p><strong>Address:</strong> {userDetails.address}</p>
-          <p><strong>Email:</strong> {userDetails.email}</p>
-        </div>
-      )} */}
       <ul className="list-group">
         <li className="list-group-item">Subtotal: ${subtotal?.toFixed(2)}</li>
         <li className="list-group-item">Tax (10%): ${tax?.toFixed(2)}</li>

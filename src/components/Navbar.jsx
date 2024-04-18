@@ -11,9 +11,6 @@ import { useShop } from "../context/ShopContext";
 
 function Navbar() {
   const { authenticated, logout } = useUser();
-  const { totalQuantity } = useShop();
-
-  console.log("Navbar rendered ", totalQuantity);
 
   return (
     <nav className="navbar navbar-expand sticky-top bg-body-tertiary">
@@ -32,11 +29,6 @@ function Navbar() {
               <li className="nav-item">
                 <Link className="nav-link" to="/cart">
                   <FontAwesomeIcon icon={faShoppingCart} /> Cart
-                  {totalQuantity > 0 && ( // Only show quantity if it's greater than 0
-                    <span className="badge bg-secondary ms-1">
-                      {totalQuantity}
-                    </span>
-                  )}
                 </Link>
               </li>
               <li className="nav-item">

@@ -17,12 +17,6 @@ function ProductItem({ product }) {
     product.productId = product._id;
     saveCart(userDetails.userId, product, 1);
     setShowAlert(true);
-    // setCartItems((prev) => {
-    //   return {
-    //     ...prev,
-    //     product,
-    //   };
-    // });
 
     console.log("Product added to cart", product);
     setTimeout(() => {
